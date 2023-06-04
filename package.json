@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./scripts/start.sh",
+    "local_db": "./scripts/local_database.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
