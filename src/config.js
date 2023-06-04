@@ -13,7 +13,9 @@ const BASE = {
             username: '',
             password: ''
         },
-        port: '8000',
+        name: '',
+        host: '',
+        port: '',
         migrate: 'false'
     }
 };

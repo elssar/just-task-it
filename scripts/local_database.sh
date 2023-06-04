@@ -24,7 +24,9 @@ fi
 # required variables
 # - username
 # - password
+# - host
 # - port
+# - database name
 # - container name
 if [ -z "$DATABASE_CREDS_USERNAME" ]; then
     echo "Database username not set";
@@ -36,8 +38,18 @@ if [ -z "$DATABASE_CREDS_PASSWORD" ]; then
     exit 1;
 fi
 
-if [ -z "$DATABASE_PORT" ]; then
+if [ -z "${DATABASE_HOST}" ]; then
+    echo "Database host not set";
+    exit 1;
+fi
+
+if [ -z "${DATABASE_PORT}" ]; then
     echo "Database port not set";
+    exit 1;
+fi
+
+if [ -z "${DATABASE_NAME}" ]; then
+    echo "Database name not set";
     exit 1;
 fi
 
@@ -71,6 +83,19 @@ docker run -d \
     --name "${DATABASE_CONTAINER_NAME}" \
     -e POSTGRES_PASSWORD="${DATABASE_CREDS_PASSWORD}" \
     -e POSTGRES_USER="${DATABASE_CREDS_USERNAME}" \
+    -e POSTGRES_DB="${DATABASE_NAME}" \
     -p "${DATABASE_PORT}":"${DATABASE_PORT}" \
     postgres;
+
+# wait till database container is running
+# check if the container is running or not. If not, then sleep for 1 second and check again
+until [ "`docker inspect -f {{.State.Running}} ${DATABASE_CONTAINER_NAME}`" == "true" ]; do
+    echo "Database not ready, sleeping for 1s";
+    sleep 1;
+done;
+
+# wait an additional 1s to ensure that the database is actually available
+sleep 1;
+
+echo "Database started";
 
