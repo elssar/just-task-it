@@ -2,6 +2,8 @@ import Router from 'express';
 
 import HealthCheck from '../models/healthcheck.model.js';
 
+import { UnexpectedError } from '../errors.js';
+
 const health_router = Router();
 
 /**
@@ -9,7 +11,7 @@ const health_router = Router();
  */
 health_router.get('/basic', (req, res) => {
     res.json({
-        status: "OK"
+        status: "Ok"
     });
 });
 
@@ -22,13 +24,11 @@ health_router.get('/basic', (req, res) => {
  * is working and the application can conect to it and perform operations
  * on it.
  */
-health_router.get('/advanced', async (req, res) => {
+health_router.get('/advanced', async (req, res, next) => {
     let hc = await HealthCheck.create({ status: "created" });
 
     if (hc.status !== "created") {
-        return res.status(500).json({
-            status: "NOT OK"
-        });
+        return next(new UnexpectedError());
     }
 
     hc.set({ status: "updated" });
@@ -37,15 +37,11 @@ health_router.get('/advanced', async (req, res) => {
     let updated_hc = await HealthCheck.findByPk(hc.id);
 
     if (updated_hc === null) {
-        return res.status(500).json({
-            status: "NOT OK"
-        });
+        return next(new UnexpectedError());
     }
 
     if (updated_hc.status !== "updated") {
-        return res.status(500).json({
-            status: "NOT OK"
-        });
+        return next(new UnexpectedError());
     }
 
     await HealthCheck.destroy({
@@ -57,13 +53,11 @@ health_router.get('/advanced', async (req, res) => {
     let deleted_hc = await HealthCheck.findByPk(hc.id);
 
     if (deleted_hc !== null) {
-        return res.status(500).json({
-            status: "NOT OK"
-        })
+        return next(new UnexpectedError());
     }
 
     return res.json({
-        status: "OK"
+        status: "Ok"
     });
 });
 
