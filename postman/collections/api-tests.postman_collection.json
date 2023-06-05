@@ -22,25 +22,12 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"",
-									"pm.test(\"Response is a JSON object\", function () {",
-									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"pm.test(\"Response is a JSON object with status Ok\", function () {",
+									"    pm.expect(pm.response.json())",
+									"        .to.be.an('object')",
+									"        .which.has.property('status', 'Ok');",
 									"});",
-									"",
-									"",
-									"pm.test(\"Response has a property named 'status'\", function () {",
-									"    pm.expect(pm.response.json()).to.have.property('status');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Status property is a string\", function () {",
-									"    pm.expect(pm.response.json().status).to.be.a('string');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Status property value is equal to 'OK'\", function () {",
-									"    pm.expect(pm.response.json().status).to.equal(\"OK\");",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -79,25 +66,12 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"",
-									"pm.test(\"Response is a JSON object\", function () {",
-									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"pm.test(\"Response is a JSON object with status Ok\", function () {",
+									"    pm.expect(pm.response.json())",
+									"        .to.be.an('object')",
+									"        .which.has.property('status', 'Ok');",
 									"});",
-									"",
-									"",
-									"pm.test(\"Response has a property named 'status'\", function () {",
-									"    pm.expect(pm.response.json()).to.have.property('status');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Status property is a string\", function () {",
-									"    pm.expect(pm.response.json().status).to.be.a('string');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Status property value is equal to 'OK'\", function () {",
-									"    pm.expect(pm.response.json().status).to.equal(\"OK\");",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -125,7 +99,708 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Test the healthcheck endpoints"
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "Successfully Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with a token\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('token')",
+											"        .that.is.a('string')",
+											"        .which.matches(/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{40}$/);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"name\": \"{{$randomFullName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomDomainName}}\",\n    \"name\": \"{{$randomFullName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"name\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "No Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "No Email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFullName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Empty Body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Extra Property",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test(\"Response is a JSON object with BadRequest status\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"name\": \"{{$randomFullName}}\",\n    \"website\": \"{{$randomDomainName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "create test users",
+							"item": [
+								{
+									"name": "Create Test User 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"user_1.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"user_1.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"user_1.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{user_1.email}}\",\n    \"name\": \"{{user_1.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Test User 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"user_2.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"user_2.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"user_2.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{user_2.email}}\",\n    \"name\": \"{{user_2.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "get authenticated user",
+							"item": [
+								{
+									"name": "Get User 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let response = pm.response.json();",
+													"",
+													"pm.test(\"Response is a JSON object with a user\", function () {",
+													"    pm.expect(response)",
+													"        .to.be.an('object')",
+													"        .which.has.all.keys('email', 'name');",
+													"});",
+													"",
+													"pm.test(\"Response has user_1's email\", function () {",
+													"    pm.expect(response)",
+													"        .to.have.property('email', pm.variables.get('user_1.email'));",
+													"});",
+													"",
+													"pm.test(\"Response has user_1's name\", function () {",
+													"    pm.expect(response)",
+													"        .to.have.property('name', pm.variables.get('user_1.name'));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{user_1.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let response = pm.response.json();",
+													"",
+													"pm.test(\"Response is a JSON object with a user\", function () {",
+													"    pm.expect(response)",
+													"        .to.be.an('object')",
+													"        .which.has.all.keys('email', 'name');",
+													"});",
+													"",
+													"pm.test(\"Response has user_2's email\", function () {",
+													"    pm.expect(response)",
+													"        .to.have.property('email', pm.variables.get('user_2.email'));",
+													"});",
+													"",
+													"pm.test(\"Response has user_2's name\", function () {",
+													"    pm.expect(response)",
+													"        .to.have.property('name', pm.variables.get('user_2.name'));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{user_2.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "unauthenticated requests",
+							"item": [
+								{
+									"name": "Get without access token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													"",
+													"let response = pm.response.json();",
+													"",
+													"pm.test(\"Response has status Unauthorized\", function () {",
+													"    pm.expect(pm.response.json())",
+													"        .to.be.an('object')",
+													"        .that.has.property('status', 'Unauthorized');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get with empty access token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													"",
+													"let response = pm.response.json();",
+													"",
+													"pm.test(\"Response has status Unauthorized\", function () {",
+													"    pm.expect(pm.response.json())",
+													"        .to.be.an('object')",
+													"        .that.has.property('status', 'Unauthorized');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get with invalid access token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													"",
+													"let response = pm.response.json();",
+													"",
+													"pm.test(\"Response has status Unauthorized\", function () {",
+													"    pm.expect(pm.response.json())",
+													"        .to.be.an('object')",
+													"        .that.has.property('status', 'Unauthorized');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "invalid",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			],
+			"description": "Run tests on users - creation and getting the authenticated user"
 		}
 	],
 	"event": [

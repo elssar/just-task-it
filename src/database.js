@@ -1,6 +1,8 @@
 import Sequelize from 'Sequelize';
 
 import { initialize as init_hc } from './models/healthcheck.model.js';
+import { initialize as init_user } from './models/user.model.js';
+import { initialize as init_token } from './models/token.model.js';
 
 async function connect (config) {
     const sq = new Sequelize(config.name, config.creds.username, config.creds.password, {
@@ -27,6 +29,8 @@ async function connect (config) {
     }
 
     init_hc(sq);
+    init_user(sq);
+    init_token(sq);
 }
 
 export default connect;
