@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS token (
     id bigserial PRIMARY KEY,
     "user" bigint NOT NULL,
     "public" varchar(8) NOT NULL,
-    "private" varchar(40) NOT NULL,
+    "private" varchar(255) NOT NULL,
     created_at timestamp NOT NULL DEFAULT current_timestamp,
     updated_at timestamp NOT NULL DEFAULT current_timestamp
 );
