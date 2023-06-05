@@ -28,6 +28,7 @@ fi
 # - port
 # - database name
 # - container name
+# - migrate
 if [ -z "$DATABASE_CREDS_USERNAME" ]; then
     echo "Database username not set";
     exit 1;
@@ -57,6 +58,12 @@ if [ -z "$DATABASE_CONTAINER_NAME" ]; then
     echo "Database container name not set";
     exit 1;
 fi
+
+if [ -z "$DATABASE_MIGRATE" ]; then
+    echo "Database migrate flag not set";
+    exit 1;
+fi
+
 
 # check whether the database container is already running
 # if running, then exit the script
@@ -96,6 +103,22 @@ done;
 
 # wait an additional 1s to ensure that the database is actually available
 sleep 1;
+
+# import the database sql if the migrate flat is set to true
+if [ "${DATABASE_MIGRATE}" = "true" ]; then
+    echo "Initializing database";
+
+    # copy sql file to container
+    docker cp db/schemas/jti-schema.sql "${DATABASE_CONTAINER_NAME}":/tmp/;
+
+    # import the schema into postgres
+    docker exec "${DATABASE_CONTAINER_NAME}" psql \
+        "${DATABASE_NAME}" \
+        "${DATABASE_CREDS_USERNAME}"\
+        -f /tmp/jti-schema.sql;
+
+    echo "Database initialized";
+fi
 
 echo "Database started";
 
