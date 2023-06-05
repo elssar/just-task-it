@@ -5,8 +5,18 @@ import reduce from 'lodash/reduce.js';
 
 const BASE = {
     srv: {
-        port: 3000,
+        port: '3000',
         env: 'development'
+    },
+    database: {
+        creds: {
+            username: '',
+            password: ''
+        },
+        name: '',
+        host: '',
+        port: '',
+        migrate: 'false'
     }
 };
 

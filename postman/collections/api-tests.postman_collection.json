@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "7d0fae4f-4b1a-4d81-90f9-dbfdb3f5d39f",
+		"name": "JTI API Tests",
+		"description": "A collection to test APIs for Just Task It.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9333975",
+		"_collection_link": "https://altrawcode.postman.co/workspace/Memex-8000~d71d9f6b-fc68-4b13-9a3e-f3d492030c4d/collection/9333975-7d0fae4f-4b1a-4d81-90f9-dbfdb3f5d39f?action=share&creator=9333975&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "health",
+			"item": [
+				{
+					"name": "Basic health check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response is a JSON object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has a property named 'status'\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('status');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status property is a string\", function () {",
+									"    pm.expect(pm.response.json().status).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status property value is equal to 'OK'\", function () {",
+									"    pm.expect(pm.response.json().status).to.equal(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/hc/basic",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hc",
+								"basic"
+							]
+						},
+						"description": "Perform a basic liveliness healthcheck"
+					},
+					"response": []
+				},
+				{
+					"name": "Advanced health check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response is a JSON object\", function () {",
+									"    pm.expect(pm.response.json()).to.be.an('object');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has a property named 'status'\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('status');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status property is a string\", function () {",
+									"    pm.expect(pm.response.json().status).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status property value is equal to 'OK'\", function () {",
+									"    pm.expect(pm.response.json().status).to.equal(\"OK\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/hc/advanced",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hc",
+								"advanced"
+							]
+						},
+						"description": "Perform an advanced health check.\n\nThe application will perform basic CRUD operations to ensure that it can still work with the database."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

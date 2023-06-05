@@ -1,11 +1,14 @@
 import express from 'express';
 import 'dotenv/config';
 
+import setup_db from './src/database.js';
 import health_router from './src/routes/healthcheck.js';
 import lift from './src/config.js';
 
 const app = express();
 const configuration = lift();
+
+await setup_db(configuration.database);
 
 // Global middlewares
 app.use(express.json());
