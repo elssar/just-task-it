@@ -1,5 +1,7 @@
 import Sequelize from 'Sequelize';
 
+import { initialize as init_hc } from './models/healthcheck.model.js';
+
 async function connect (config) {
     const sq = new Sequelize(config.name, config.creds.username, config.creds.password, {
         host: config.host,
@@ -23,6 +25,8 @@ async function connect (config) {
         console.error('Unable to connect to database', err);
         throw err;
     }
+
+    init_hc(sq);
 
     return sq;
 }
