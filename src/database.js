@@ -27,8 +27,6 @@ async function connect (config) {
     }
 
     init_hc(sq);
-
-    return sq;
 }
 
 export default connect;

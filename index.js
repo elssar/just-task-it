@@ -8,10 +8,7 @@ import lift from './src/config.js';
 const app = express();
 const configuration = lift();
 
-const db = await setup_db(configuration.database);
-
-// Set the database connection as a global
-global.db = db;
+await setup_db(configuration.database);
 
 // Global middlewares
 app.use(express.json());
