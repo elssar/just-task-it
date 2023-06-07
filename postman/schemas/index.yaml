@@ -1,0 +1,849 @@
+openapi: '3.1.0'
+info:
+  version: '0.1.0'
+  title: 'Just Task It'
+  description: A simple, personal task and todo manager
+
+paths:
+  /hc/basic:
+    get:
+      summary: Basic health check
+      description: Perform a basic liveliness healthcheck
+      tags:
+        - health
+      responses:
+        '200':
+          $ref: '#/components/responses/Ok'
+  
+  /hc/advanced:
+    get:
+      summary: Advanced health check
+      description: Perform an advanced healthcheck that checks that the application can perform CRUD operations on the database
+      tags:
+        - health
+      responses:
+        '200':
+          $ref: '#/components/responses/Ok'
+        '500':
+          $ref: '#/components/responses/UnexpectedError'
+
+  /users:
+    get:
+      summary: Get Authenticated User
+      description: |
+        Get the authenticated users details. The user is authenticated
+        via the API key (token) in the request header `X-Api-Key`.
+      tags:
+        - users
+      security:
+        - ApiKey: []
+      responses:
+        '200':
+          description: Authenticated user details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a User
+      description: |
+        API to create a user.
+
+        If a user is successfully created, the application will send the users
+        access token (API key) in the response. This is the only time this access token
+        will be made available to the user, so it should be immediately & securely saved
+        elsewhere. The token is request to authenticate requests to the application,
+        and needs to be sent in the `X-Api-Key` header.
+      tags:
+        - users
+      requestBody:
+        description: |
+          A request to create a new user. The email and display name of the
+          user are required
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Successfully created a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+
+  /lists:
+    get:
+      summary: Get Lists
+      description: |
+        Get all lists of the authenticated user.
+        User is identified by the access token in the request and will only receive
+        lists created by them.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      responses:
+        '200':
+          description: Users Lists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a List
+      description: |
+        Create a list for the authenticated user.
+        The list can be created with an optional list of todos, however those
+        todos must belong to the user. If the todos belong to another list,
+        then they will be reassigned to the newly created list.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      requestBody:
+        description: |
+          A list object request, with `name` being a required field. A list of
+          Todo's can optionally be added to add the todos to the list on creation.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '200':
+          description: List successfullly created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+  
+  /lists/{list_id}:
+    get:
+      summary: Get a List
+      description: |
+        Get a list, identified by `list_id`.
+        The request is authenticated by the auth token in the
+        `X-Api-Key` header, and the requested list must belong to
+        the authenticated user.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: list_id
+          description: Id of the list
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      responses:
+        '200':
+          description: Get List
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update a List
+      description: |
+        Update a list name.
+        Will return an error if the new name clashes with an existing list
+        owned by the authenticated user.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: list_id
+          description: Id of the list
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      requestBody:
+        description: |
+          A list object request, with `name` being a required field.
+          The new `name` should not be the same as that of any other list owned
+          by the user.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/List'
+      responses:
+        '200':
+          description: List successfullly created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+    
+    delete:
+      summary: Delete a List
+      description: |
+        Get a list, identified by `list_id`.
+        The request is authenticated by the auth token in the
+        `X-Api-Key` header, and the requested list must belong to
+        the authenticated user.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: list_id
+          description: Id of the list
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      responses:
+        '200':
+          description: Get List
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Ok'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+
+  /todos:
+    get:
+      summary: Get Todos
+      description: |
+        Get todos for the authenticated user.
+        By deafult only the todos that are pending will be fetched. All todos can
+        be fetched by setting the `all` query param to `true`.
+      tags:
+        - todos
+      security:
+        - ApiKey: []
+      parameters:
+        - in: query
+          name: all
+          description: Flag to include `done` todos in the response.
+          required: false
+          schema:
+            $ref: '#/components/schemas/BoolQueryParam'
+      responses:
+        '200':
+          description: Users Todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a Todo
+      description: |
+        Create a todo for the authenticated user.
+        The todo can be created with an optional list, however that
+        list must belong to the user.
+      tags:
+        - lists
+      security:
+        - ApiKey: []
+      requestBody:
+        description: |
+          A todo object request, A list ocan optionally be provided to
+          add the todo to the list on creation.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      responses:
+        '200':
+          description: Todo successfullly created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+
+  /todos/{todo_id}:
+    get:
+      summary: Get a Todo
+      description: |
+        Get a todo, identified by `todo_id`.
+        The request is authenticated by the auth token in the
+        `X-Api-Key` header, and the requested todo must belong to
+        the authenticated user.
+      tags:
+        - todos
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: todo_id
+          description: Id of the todo
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      responses:
+        '200':
+          description: Get Todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+    
+    put:
+      summary: Update a Todo
+      description: |
+        Update a todo, identified by `todo_id`.
+        The request is authenticated by the auth token in the
+        `X-Api-Key` header, and the requested todo must belong to
+        the authenticated user.
+        This request only updates the title, or the due date of the todo.
+        If title is sent in the request, then title is updated, else if due_by
+        is sent the the due date is updated. If neither is sent then an error
+        is returned.
+      tags:
+        - todos
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: todo_id
+          description: Id of the todo
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      responses:
+        '200':
+          description: Get Updated Todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Delete a Todo
+      description: |
+        Delete a todo, identified by `todo_id`.
+        The request is authenticated by the auth token in the
+        `X-Api-Key` header, and the requested todo must belong to
+        the authenticated user.
+      tags:
+        - todos
+      security:
+        - ApiKey: []
+      parameters:
+        - in: path
+          name: todo_id
+          description: Id of the todo
+          required: true
+          schema:
+            $ref: '#/components/schemas/IntPK'
+      responses:
+        '200':
+          description: Delete Todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Ok'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+  
+  /todos/{todo_id}/{todo_action}:
+    put:
+        summary: Perform action on Todo
+        description: |
+          Perform an action, identified by `todo_action, on a todo, identified by `todo_id`.
+          The request is authenticated by the auth token in the
+          `X-Api-Key` header, and the todo must belong to
+          the authenticated user.
+        tags:
+          - todos
+        security:
+          - ApiKey: []
+        parameters:
+          - in: path
+            name: todo_id
+            description: Id of the todo
+            required: true
+            schema:
+              $ref: '#/components/schemas/IntPK'
+          - in: path
+            name: todo_action
+            description: Action to perform
+            required: true
+            schema:
+              $ref: '#/components/schemas/TodoAction'
+        responses:
+          '200':
+            description: Get Updated Todo
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Todo'
+          '401':
+            description: Not authenticated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/responses/Unauthorized'
+          '404':
+            description: Not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/responses/NotFound'
+
+components:
+  schemas:
+    IntPK:
+      description: |
+        An auto-increment integer primary key. In the database, this is
+        represented as a `BIGSERIAL` field.
+      type: integer
+      minimum: 1
+    
+    BoolQueryParam:
+      description: |
+        Representation of a boolean in a query param. Essentially, stringified
+        boolean
+      type: string
+      enum:
+        - 'true'
+        - 'false'
+    
+    TodoAction:
+      description: |
+        An action that can be performed on a todo
+      type: string
+      enum:
+        - 'done'
+        - 'reopen'
+
+    UserRequest:
+      description: All of the data required to create a user
+      type: object
+      required:
+        - email
+        - name
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+
+    User:
+      description: |
+        The externally (outside of the application) available user model.
+      allOf:
+        - $ref: '#/components/schemas/UserRequest'
+        - type: object
+          required:
+            - joined
+          properties:
+            joined:
+              type: string
+              format: date-time
+    
+    UserDatabaseModel:
+      description: A user model as stored in the database
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          required:
+            - active
+            - id
+            - updated_at
+          properties:
+            id:
+              $ref: '#/components/schemas/IntPK'
+            active:
+              description: Whether or not the user is active
+              type: boolean
+            updated_at:
+              type: string
+              format: date-time
+    
+    AccessToken:
+      description: |
+        A users access token. This is used to identify and authenticate the user
+        in API calls.
+
+        The access token is not stored in the database and is returned in the response
+        once generated. It must then be copied and stored, else it won't be available anymore.
+      type: string
+      pattern: '^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{40}$'
+
+    Token:
+      description: Response for a users access token
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          $ref: '#/components/schemas/AccessToken'
+    
+    TokenDatabaseModel:
+      description: |
+        A model for storing the users access token.
+
+        A access token has two parts - a public and a private part. The private part is
+        never stored directly in the database but hashed. This is to ensure that the
+        access token is not stored as plain text.
+
+        Format of the access token is "{public}-{private}". The public part is used to
+        find the token from the database and then the private part is hashed and matched
+        against the stored hash.
+
+        The token can be regenerated to a new one.
+      type: object
+      required:
+        - id
+        - user
+        - public
+        - private
+        - created_at
+        - updated_at
+      properties:
+        id:
+          $ref: '#/components/schemas/IntPK'
+        user:
+          description: The user who the token belongs to
+          type: integer
+          minimum: 1
+        public:
+          description: |
+            Public part of the users access token. This is used to query and
+            find a token for verification.
+          type: string
+        private:
+          description: |
+            Private part of a users access token. This is auto generated and then
+            hashed before being saved in the database. Token verification is
+            performed by hashing the token provided in a request and comparing
+            against the stored value.
+          type: string
+        created_at:
+          description: Timestamp for recording when the token was created
+          type: string
+          format: date-time
+        updated_at:
+          description: Timestamp for recording when the token was updated / regenerated
+          type: string
+          format: date-time
+
+    TodoRequest:
+      description: A request to create a todo
+      type: object
+      required:
+        - title
+        - due_by
+      properties:
+        title:
+          description: |
+            The name or title of the todo
+          type: string
+        due_by:
+          description: The due date for the todo
+          type: string
+          format: date-time
+        list:
+          description: |
+            The id of the list this todo should be added to.
+            This is optional field. If not provided, then the
+            todo will not be part of any list.
+          type:
+            $ref: '#/components/schemas/IntPK'
+
+    Todo:
+      description: |
+        A todo, from the perspective of the user
+      allOf:
+        - $ref: '#/components/schemas/TodoRequest'
+        - type: object
+          required:
+            - id
+            - status
+            - created_at
+            - updated_at
+          properties:
+            id:
+              $ref: '#/components/schemas/IntPK'
+            title:
+              description: Title or name of the todo
+              type: string
+            status:
+              description: |
+                The status of the task. This is not sotored in the database
+                but calculated from the `done_at` property. If `done_at` is null
+                then status is `pending` else `done`.
+              type: string
+              enum:
+                - done
+                - pending
+            done_at:
+              description: |
+                Timestamp for whent he todo was marked as done. If the todo is still pending
+                then it is null.
+              type: string
+              format: date-time
+            created_at:
+              description: Timestamp for when the todo was created
+              type: string
+              format: date-time
+            updated_at:
+              description: Timestamp for when the todo was last updated
+              type: string
+              format: date-time
+
+    TodoDatabaseSchema:
+      description: |
+        A todo model. This is the representation of how a todo is
+        saved in the database.
+      allOf:
+        - $ref: '#/components/schemas/Todo'
+        - type: object
+          required:
+            - user
+          properties:
+            user:
+              description: Id of the user who created the todo
+              type:
+                $ref: '#/components/schemas/IntPK'
+    
+    List:
+      description: |
+        A list, to group todos together.
+        It has a name, and optionally a list of todos. 
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          description: Name of the list
+          type: string
+          maxLength: 32
+        created_at:
+          description: Timestamp for when the list was created
+          type: string
+          format: date-time
+        updated_at:
+          description: Timestamp for when the list was last updated
+          type: string
+          format: date-time
+        todos:
+          description: An array of ids all todos in the list
+          type: array
+          items:
+            $ref: '#/components/schemas/IntPK'
+
+    ListDatabaseSchema:
+      description: |
+        A representation of the database schema for a list
+      allOf:
+        - $ref: '#/components/schemas/List'
+        - type: object
+          required:
+            - id
+            - user
+          properties:
+            id:
+              $ref: '#/components/schemas/IntPK'
+            user:
+              description: Id of the user who created the list
+              type:
+                $ref: '#/components/schemas/IntPK'
+
+  responses:
+    Ok:
+      description: A generic Ok response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - Ok
+    UnexpectedError:
+      description: A generic 500 error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - UnexpectedError
+    
+    Unauthorized:
+      description: A generic 401 response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - Unauthorized
+    
+    Forbidden:
+      description: A generic 403 response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - Forbidden
+    
+    BadRequest:
+      description: A generic 400 response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                  - BadRequest
+
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

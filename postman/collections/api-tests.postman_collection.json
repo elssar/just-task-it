@@ -1,11 +1,10 @@
 {
 	"info": {
-		"_postman_id": "7d0fae4f-4b1a-4d81-90f9-dbfdb3f5d39f",
+		"_postman_id": "06c95a85-7231-43a9-aec8-bc5535d628d6",
 		"name": "JTI API Tests",
 		"description": "A collection to test APIs for Just Task It.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "9333975",
-		"_collection_link": "https://altrawcode.postman.co/workspace/Memex-8000~d71d9f6b-fc68-4b13-9a3e-f3d492030c4d/collection/9333975-7d0fae4f-4b1a-4d81-90f9-dbfdb3f5d39f?action=share&creator=9333975&source=collection_link"
+		"_uid": "9333975-06c95a85-7231-43a9-aec8-bc5535d628d6"
 	},
 	"item": [
 		{
@@ -29,10 +28,12 @@
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"id": "4797da0d-a358-4598-85ac-0b1972b93afa"
 							}
 						}
 					],
+					"id": "84d63486-fff3-487f-a65c-e6e3c79cd60e",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -73,10 +74,12 @@
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"id": "fb532626-e580-4b16-97a8-bcf0db77fbca"
 							}
 						}
 					],
+					"id": "4d43b99b-6382-4526-afcb-f8691d69cfb8",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -100,6 +103,7 @@
 					"response": []
 				}
 			],
+			"id": "c110a5a2-412c-41a0-af89-44fca0e1cf94",
 			"description": "Test the healthcheck endpoints"
 		},
 		{
@@ -128,10 +132,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "e94b458f-b10a-4751-bc5e-abae1681928c"
 									}
 								}
 							],
+							"id": "e17c5a48-73ec-4459-9a61-c14197c019f0",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -174,10 +180,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "5c3a17b8-efd6-48bb-9942-ea8332a74be7"
 									}
 								}
 							],
+							"id": "db3f36c9-abbf-4199-ad94-152720338ab6",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -220,10 +228,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "776c6e38-5a5d-4201-83d1-1c348433e39c"
 									}
 								}
 							],
+							"id": "fd8f7d3a-24d6-496b-bf2a-b6c8b371fbf9",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -266,10 +276,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "b5ab9b1a-d530-4ba8-b659-f8c23b5f42b6"
 									}
 								}
 							],
+							"id": "1b4d1253-df4e-424f-8669-46ee6a1cdaf3",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -312,10 +324,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "5de77bd2-fa41-4970-a572-e2eca639d417"
 									}
 								}
 							],
+							"id": "050ac182-a5cb-4555-9b3c-a95bdd72e9bd",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -358,10 +372,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "4ad4aec3-f83d-46cd-b129-fd26f34ae0fd"
 									}
 								}
 							],
+							"id": "70d940c6-c133-4746-a26b-4dad73271d6f",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -404,10 +420,12 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"id": "be5dec27-67f6-4575-9fda-4fc3b2a3731e"
 									}
 								}
 							],
+							"id": "4c375a4d-3af7-4731-b514-960bfa153878",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -432,7 +450,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"id": "800b7182-b4e6-4182-83e1-b8649a1eaa98"
 				},
 				{
 					"name": "get",
@@ -456,7 +475,8 @@
 													"pm.variables.set(\"user_1.token\", resp.token);",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "5a827c09-a097-44a4-ab9c-e9b29ad0028b"
 											}
 										},
 										{
@@ -466,10 +486,12 @@
 													"pm.variables.set(\"user_1.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
 													"pm.variables.set(\"user_1.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "b7115bca-fea5-435c-8668-b509f3fd0f50"
 											}
 										}
 									],
+									"id": "9a884bb0-08f4-489d-b243-f7b9944bb3f9",
 									"request": {
 										"method": "POST",
 										"header": [],
@@ -510,7 +532,8 @@
 													"pm.variables.set(\"user_2.token\", resp.token);",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "5e2cbff0-812d-4181-8f97-1286b0cb68b9"
 											}
 										},
 										{
@@ -520,10 +543,12 @@
 													"pm.variables.set(\"user_2.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
 													"pm.variables.set(\"user_2.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "c3e3f0ba-7c12-4725-9fb1-dfa02488607e"
 											}
 										}
 									],
+									"id": "b49fbdab-a012-445d-956a-eb33cb15d414",
 									"request": {
 										"method": "POST",
 										"header": [],
@@ -548,7 +573,8 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"id": "2b6ffd61-5678-4dad-b3c6-959982b6af8b"
 						},
 						{
 							"name": "get authenticated user",
@@ -582,10 +608,12 @@
 													"        .to.have.property('name', pm.variables.get('user_1.name'));",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "5f6eb7e6-f1be-4517-80df-a245c5cd4d45"
 											}
 										}
 									],
+									"id": "b2251169-8e7c-48aa-9435-4dcce4048593",
 									"request": {
 										"method": "GET",
 										"header": [
@@ -636,10 +664,12 @@
 													"        .to.have.property('name', pm.variables.get('user_2.name'));",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "fcbc9f08-1599-4bdd-863e-10f6d28809a3"
 											}
 										}
 									],
+									"id": "5ca49aee-025f-4369-a048-70f1998fd56d",
 									"request": {
 										"method": "GET",
 										"header": [
@@ -661,7 +691,8 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"id": "ed5f870a-0983-4967-8a15-cf3dd07cf2bc"
 						},
 						{
 							"name": "unauthenticated requests",
@@ -686,10 +717,12 @@
 													"});",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "2a28d03a-0b68-4dfd-92e4-de7b5f8c8c7f"
 											}
 										}
 									],
+									"id": "fb2fc82c-4fcc-4d68-8ffe-d0ee0a81f08d",
 									"request": {
 										"method": "GET",
 										"header": [],
@@ -725,10 +758,12 @@
 													"});",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "88faeb05-0aa3-4dc3-982e-ab66b00a03f1"
 											}
 										}
 									],
+									"id": "3bc9a9e8-93ad-4217-85c0-3d8c3acf0f51",
 									"request": {
 										"method": "GET",
 										"header": [
@@ -770,10 +805,12 @@
 													"});",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"id": "2115e8d3-4e69-44b6-9a0f-f05aa0bd5acb"
 											}
 										}
 									],
+									"id": "cc590e77-9683-4d03-82be-5c0439cc68f0",
 									"request": {
 										"method": "GET",
 										"header": [
@@ -795,11 +832,14 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"id": "2505adf0-1b2e-4cf2-9cce-f95cf9098b2d"
 						}
-					]
+					],
+					"id": "2d4edd9a-9fb6-4768-838b-37ccc9e47caf"
 				}
 			],
+			"id": "1719ae0f-5cdc-4693-87c9-d7d384d92066",
 			"description": "Run tests on users - creation and getting the authenticated user"
 		}
 	],
@@ -810,7 +850,8 @@
 				"type": "text/javascript",
 				"exec": [
 					""
-				]
+				],
+				"id": "eb8c7c84-aecc-4363-a255-3cc2da85f102"
 			}
 		},
 		{
@@ -819,7 +860,8 @@
 				"type": "text/javascript",
 				"exec": [
 					""
-				]
+				],
+				"id": "58be8938-940a-4e51-ab07-2fba4c85746a"
 			}
 		}
 	]
