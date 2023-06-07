@@ -1,9 +1,15 @@
 import { DataTypes, Model } from 'Sequelize';
 
-Class List extends Model {};
+class List extends Model {
+    toJSON() {
+        let { user, ...data } = this.get();
+
+        return data;
+    }
+};
 
 function initialize (db) {
-    List.inti({
+    List.init({
         id: {
             type: DataTypes.BIGINT,
             autoIncrement: true,

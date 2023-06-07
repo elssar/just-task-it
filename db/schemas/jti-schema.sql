@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS todo (
     "user" bigint NOT NULL,
     list bigint,
     due_by timestamp NOT NULL,
-    done_at timestamp NOT NULL,
+    done_at timestamp,
     title varchar(64) NOT NULL,
     created_at timestamp NOT NULL DEFAULT current_timestamp,
     updated_at timestamp NOT NULL DEFAULT current_timestamp

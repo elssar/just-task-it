@@ -29,5 +29,13 @@ class BadRequest extends Error {
     }
 }
 
-export { UnexpectedError, Unauthorized, BadRequest };
+class NotFound extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'NotFound';
+        this.status_code = 404;
+    }
+}
+
+export { UnexpectedError, Unauthorized, BadRequest, NotFound };
 

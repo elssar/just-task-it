@@ -1,6 +1,20 @@
 import { DataTypes, Model } from 'Sequelize';
 
-class Todo extends Model {};
+class Todo extends Model {
+    toJSON() {
+        let { user, done_at, ...data } = this.get();
+
+        if (done_at === null) {
+            data.status = 'pending'
+        }
+        else {
+            data.status = 'done';
+            data.done_at = done_at;
+        }
+
+        return data;
+    }
+};
 
 function initialize (db) {
     Todo.init({
@@ -15,14 +29,15 @@ function initialize (db) {
         },
         list: {
             type: DataTypes.BIGINT,
-            allowNull; false
+            allowNull: true 
         },
         due_by: {
             type: DataTypes.DATE,
             allowNull: false
         },
         done_at: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allow_null: true
         },
         title: {
             type: DataTypes.STRING,
