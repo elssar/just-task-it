@@ -35,6 +35,38 @@ CREATE TABLE IF NOT EXISTS token (
     updated_at timestamp NOT NULL DEFAULT current_timestamp
 );
 
-CREATE UNIQUE INDEX token_user on token ("user");
-CREATE UNIQUE INDEX token_pub on token ("public");
+CREATE UNIQUE INDEX token_user ON token ("user");
+CREATE UNIQUE INDEX token_pub ON token ("public");
+
+/*
+  todo list
+*/
+CREATE TABLE IF NOT EXISTS list (
+    id bigserial PRIMARY KEY,
+    "user" bigint NOT NULL,
+    name varchar(32),
+    created_at timestamp NOT NULL DEFAULT current_timestamp,
+    updated_at timestamp NOT NULL DEFAULT current_timestamp
+);
+
+CREATE UNIQUE INDEX user_list ON list ("user", name);
+
+/*
+    todo
+*/
+CREATE TABLE IF NOT EXISTS todo (
+    id bigserial PRIMARY KEY,
+    "user" bigint NOT NULL,
+    list bigint,
+    due_by timestamp NOT NULL,
+    done_at timestamp,
+    title varchar(64) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT current_timestamp,
+    updated_at timestamp NOT NULL DEFAULT current_timestamp
+);
+
+CREATE INDEX todo_user ON todo ("user");
+CREATE INDEX todo_list ON todo (list);
+CREATE INDEX due ON todo (due_by);
+CREATE INDEX done ON todo (done_at);
 
