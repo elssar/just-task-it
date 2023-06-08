@@ -27,7 +27,7 @@ todo_router.post('/', async (req, res, next) => {
         // - does not belong to the user
         // So return an error
         if (list_id && list === null) {
-            throw BadRequest;
+            throw new BadRequest;
         }
 
         if (list && list.id) {
@@ -47,7 +47,7 @@ todo_router.get('/', async (req, res, next) => {
     let all = req.query.all === 'true';
 
     try {
-        let todos = TodoService.get_todos(req.user_id, all);
+        let todos = await TodoService.get_todos(req.user_id, all);
 
         return res.json(todos);
     }
@@ -61,7 +61,7 @@ todo_router.get('/:todo_id', async (req, res, next) => {
         let todo = await TodoService.get_todo(req.params.todo_id, req.user_id);
 
         if (todo === null) {
-            throw NotFound;
+            throw new NotFound;
         }
 
         return res.json(todo);
@@ -80,10 +80,10 @@ todo_router.put('/:todo_id', async (req, res, next) => {
     }
 
     try {
-        let todo = await get_todo(req.params.todo_id, req.user_id);
+        let todo = await TodoService.get_todo(req.params.todo_id, req.user_id);
 
         if (todo === null) {
-            throw NotFound;
+            throw new NotFound;
         }
 
         if (title) {
@@ -102,15 +102,15 @@ todo_router.put('/:todo_id', async (req, res, next) => {
     }
 });
 
-todo_router.delete('/:todo_id', async (req, res, body) => {
+todo_router.delete('/:todo_id', async (req, res, next) => {
     try {
-        let todo = await get_todo(req.params.todo_id, req.user_id);
+        let todo = await TodoService.get_todo(req.params.todo_id, req.user_id);
 
         if (todo === null) {
-            return NotFound;
+            throw new NotFound;
         }
 
-        await todo.destory();
+        await todo.destroy();
 
         return res.json({
             status: 'Ok'
@@ -121,18 +121,20 @@ todo_router.delete('/:todo_id', async (req, res, body) => {
     }
 });
 
-todo_router.put('/:todo_id/:action', async (req, res, body) => {
+todo_router.put('/:todo_id/:action', async (req, res, next) => {
+    const VALID_ACTIONS = ['done', 'reopen'];
+
     let action = req.params.action;
 
-    if (action !== 'done' || action !== 'reopen') {
+    if (!VALID_ACTIONS.includes(action)) {
         return next(new BadRequest());
     }
 
     try {
-        let todo = await todo_action(action, req.params.todo_id, req.user_id);
+        let todo = await TodoService.todo_action(action, req.params.todo_id, req.user_id);
 
         if (todo === null) {
-            throw NotFound;
+            throw new NotFound;
         }
 
         return res.json(todo);

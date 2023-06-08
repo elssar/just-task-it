@@ -40,11 +40,9 @@ async function get_todos (user, get_all = false) {
     let where = { user: user };
 
     if (get_all !== true) {
-        where.done_at = {
-            [Op.not]: null
-        }
+        where.done_at = null
     }
-
+    
     return await Todo.findAll({ where });
 }
 

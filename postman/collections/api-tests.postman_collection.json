@@ -438,7 +438,7 @@
 					"name": "get",
 					"item": [
 						{
-							"name": "create test users",
+							"name": "create test users Copy",
 							"item": [
 								{
 									"name": "Create Test User 1",
@@ -801,6 +801,3540 @@
 				}
 			],
 			"description": "Run tests on users - creation and getting the authenticated user"
+		},
+		{
+			"name": "lists",
+			"item": [
+				{
+					"name": "setup",
+					"item": [
+						{
+							"name": "user 1",
+							"item": [
+								{
+									"name": "Create Test User 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"lists.user_1.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"lists.user_1.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{lists.user_1.email}}\",\n    \"name\": \"{{lists.user_1.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List TODO 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.todo_tasks.1\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List TODO 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.todo_tasks.2\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List non TODO 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.non_todo_tasks.1\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List non TODO 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.non_todo_tasks.1\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "user 2",
+							"item": [
+								{
+									"name": "Create Test User 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_2.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"lists.user_2.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"lists.user_2.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{lists.user_2.email}}\",\n    \"name\": \"{{lists.user_2.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List TODO 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_2.todo_tasks.1\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_2.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List TODO 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_2.todo_tasks.2\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_2.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List non TODO 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.non_todo_tasks.1\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_2.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List non TODO 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"lists.user_1.non_todo_tasks.2\", resp.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_2.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "List Creation",
+					"item": [
+						{
+							"name": "Add a list without any todos",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"lists.test_1.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_1.name'));",
+											"});",
+											"",
+											"pm.test(\"List has no todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.not.have.property('todos');",
+											"});",
+											"",
+											"pm.variables.set('lists.test_1.id', list.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"{{lists.test_1.name}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/lists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add a list with todos",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"lists.test_2.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_2.name'));",
+											"});",
+											"",
+											"pm.test(\"List has todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.not.have.property('todos');",
+											"});",
+											"",
+											"pm.variables.set('lists.test_2.id', list.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\" : \"{{lists.test_2.name}}\",\n    \"todos\": [\n        {{lists.user_1.todo_tasks.1}},\n        {{lists.user_1.todo_tasks.2}}\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/lists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Lists",
+					"item": [
+						{
+							"name": "Get List with Todos not populated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_2.name'));",
+											"});",
+											"",
+											"pm.test(\"List has no todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.not.have.property('todos');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_2.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get List with Todos populated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ld = require('lodash');",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_2.name'));",
+											"});",
+											"",
+											"pm.test(\"List has todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.have.property('todos')",
+											"        .which.is.an('array')",
+											"        .which.has.length(2);",
+											"});",
+											"",
+											"pm.test('List has expected todos', function () {",
+											"    let todo_ids = ld.map(list.todos, 'id');",
+											"    ",
+											"    pm.expect(todo_ids)",
+											"        .to.be.an('array')",
+											"        .which.includes.members([",
+											"            pm.variables.get('lists.user_1.todo_tasks.1'),",
+											"            pm.variables.get('lists.user_1.todo_tasks.2')",
+											"        ]);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id?populate=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"query": [
+										{
+											"key": "populate",
+											"value": "true"
+										}
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_2.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get List without Todos not populated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_1.name'));",
+											"});",
+											"",
+											"pm.test(\"List has no todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.not.have.property('todos');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get List without Todos populated",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.test_1.name'));",
+											"});",
+											"",
+											"pm.test(\"List has no todos\", function () {",
+											"    pm.expect(list)",
+											"        .to.not.have.property('todos');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Lists for User 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ld = require('lodash');",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let lists = pm.response.json();",
+											"",
+											"pm.test(\"Response is a an array of lists\", function () {",
+											"    pm.expect(lists)",
+											"        .to.be.an('array')",
+											"        .which.has.length(2);",
+											"});",
+											"",
+											"pm.test('Response has expected lists', function () {",
+											"    let list_ids = ld.map(lists, 'id');",
+											"    ",
+											"    pm.expect(list_ids)",
+											"        .to.be.an('array')",
+											"        .which.includes.members([",
+											"            pm.variables.get('lists.test_1.id'),",
+											"            pm.variables.get('lists.test_2.id')",
+											"        ]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Lists for User 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ld = require('lodash');",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let lists = pm.response.json();",
+											"",
+											"pm.test(\"Response is an empty array\", function () {",
+											"    pm.expect(lists)",
+											"        .to.be.an('array')",
+											"        .which.has.length(0);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User 1's list with User 2's token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"let response = pm.response.json();",
+											"",
+											"pm.test(\"Response has status NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_2.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Non Existent List",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"let response = pm.response.json();",
+											"",
+											"pm.test(\"Response has status NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "99999999"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list edit",
+					"item": [
+						{
+							"name": "Rename a List",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"lists.edit.test_1.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let list = pm.response.json();",
+											"",
+											"pm.test(\"Response is a list with a name \", function () {",
+											"    pm.expect(list)",
+											"        .to.be.an('object')",
+											"        .which.has.property('name', pm.variables.get('lists.edit.test_1.name'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{lists.edit.test_1.name}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rename a Non Existant List",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"lists.edit.test_2.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Response status is NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'NotFound');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{lists.edit.test_2.name}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "999999"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rename another Users List",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"lists.edit.test_3.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Response status is NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'NotFound');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{lists.edit.test_3.name}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list delete",
+					"item": [
+						{
+							"name": "Delete List with Todos",
+							"item": [
+								{
+									"name": "Get List with todos",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let list = pm.response.json();",
+													"let todos = list.todos.map(t => t.id);",
+													"",
+													"pm.test(\"List has todos\", function () {",
+													"    pm.expect(todos)",
+													"        .to.be.an('array')",
+													"        .which.is.not.empty;",
+													"});",
+													"",
+													"pm.variables.set('lists.delete.with_todos.todo_ids', JSON.stringify(todos));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/lists/:list_id?populate=true",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"lists",
+												":list_id"
+											],
+											"query": [
+												{
+													"key": "populate",
+													"value": "true"
+												}
+											],
+											"variable": [
+												{
+													"key": "list_id",
+													"value": "{{lists.test_2.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response status is Ok\", function () {",
+													"    pm.expect(pm.response.json())",
+													"        .to.be.an('object')",
+													"        .which.has.property('status', 'Ok');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/lists/:list_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"lists",
+												":list_id"
+											],
+											"variable": [
+												{
+													"key": "list_id",
+													"value": "{{lists.test_2.id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Check todos no longer associated with list",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let todos = pm.response.json();",
+													"let ex_list_todo_ids = JSON.stringify(pm.variables.get('lists.delete.with_todos.todo_ids'));",
+													"",
+													"pm.test(\"None of the todos are associated with deleted list\", function () {",
+													"    todos.forEach((todo) => {",
+													"        if (ex_list_todo_ids.includes(todo.id)) {",
+													"            pm.expect(todo.list).to.be.null;",
+													"        }",
+													"    });",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{lists.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete another users list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Response status is NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete non existent list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"Response status is NotFound\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "999999"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete List without Todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response status is Ok\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('status', 'Ok');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{lists.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/lists/:list_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"lists",
+										":list_id"
+									],
+									"variable": [
+										{
+											"key": "list_id",
+											"value": "{{lists.test_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "todos",
+			"item": [
+				{
+					"name": "setup",
+					"item": [
+						{
+							"name": "user 1",
+							"item": [
+								{
+									"name": "Create Test User 1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"todos.user_1.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"todos.user_1.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"todos.user_1.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{todos.user_1.email}}\",\n    \"name\": \"{{todos.user_1.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List for User 1",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"lists.user_1.list_1.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let list = pm.response.json();",
+													"",
+													"pm.variables.set('todos.user_1.list_1.id', list.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\" : \"{{todos.user_1.list_1.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/lists",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"lists"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "user 2",
+							"item": [
+								{
+									"name": "Create Test User 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let resp = pm.response.json();",
+													"",
+													"pm.variables.set(\"todos.user_2.token\", resp.token);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"todos.user_2.email\", pm.variables.replaceIn('{{$randomEmail}}'));",
+													"pm.variables.set(\"todos.user_2.name\", pm.variables.replaceIn('{{$randomFullName}}'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{todos.user_2.email}}\",\n    \"name\": \"{{todos.user_2.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create List for User 2",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"lists.user_2.list_1.name\", pm.variables.replaceIn('{{$randomAdjective}}'));"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let list = pm.response.json();",
+													"",
+													"pm.variables.set('todos.user_2.list_1.id', list.id);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_2.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\" : \"{{todos.user_2.list_1.name}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/lists",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"lists"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "create todo",
+					"item": [
+						{
+							"name": "Create a Todo",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.create.test_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.test('Todo to have the expected title', function () {",
+											"    pm.expect(todo)",
+											"        .to.be.an('object')",
+											"        .that.has.property('title', pm.variables.get('todos.create.test_1.title'));",
+											"});",
+											"",
+											"pm.test('Todo should be in pending state', function () {",
+											"    pm.expect(todo)",
+											"        .to.have.property('status', 'pending');",
+											"});",
+											"",
+											"pm.test('Todo should not be part of a list', function () {",
+											"    pm.expect(todo)",
+											"        .to.have.property('list')",
+											"        .which.is.null;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.create.test_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a Todo in a List",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.create.test_2.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.test('Todo to have the expected title', function () {",
+											"    pm.expect(todo)",
+											"        .to.be.an('object')",
+											"        .that.has.property('title', pm.variables.get('todos.create.test_2.title'));",
+											"});",
+											"",
+											"pm.test('Todo should be in pending state', function () {",
+											"    pm.expect(todo)",
+											"        .to.have.property('status', 'pending');",
+											"});",
+											"",
+											"pm.test('Todo should not be part of a list', function () {",
+											"    pm.expect(todo)",
+											"        .to.have.property('list', pm.variables.get('todos.user_1.list_1.id'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.create.test_2.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\",\n    \"list\": \"{{todos.user_1.list_1.id}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a Todo in a List Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.create.test_3.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.test('Response has status BadRequest', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .is.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.create.test_3.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\",\n    \"list\": \"{{todos.user_2.list_1.id}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a Todo in a non existent list",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.create.test_3.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.test('Response has status BadRequest', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .is.an('object')",
+											"        .which.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.create.test_3.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\",\n    \"list\": 999999\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "todo actions",
+					"item": [
+						{
+							"name": "Create a Todo",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.actions.test_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.variables.set('todos.actions.test_1.todo.id', todo.id);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.actions.test_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark todo as done",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Todo is now marked as done', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'done');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.actions.test_1.todo.id}}"
+										},
+										{
+											"key": "action",
+											"value": "done"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark todo as undone",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Todo is now marked as pending', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'pending');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.actions.test_1.todo.id}}"
+										},
+										{
+											"key": "action",
+											"value": "reopen"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Perform Invalid Action on Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test('Response status is BadRquest', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.actions.test_1.todo.id}}"
+										},
+										{
+											"key": "action",
+											"value": "undone"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Perform Action on another users Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.actions.test_1.todo.id}}"
+										},
+										{
+											"key": "action",
+											"value": "done"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Perform Action on non existant todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "999999"
+										},
+										{
+											"key": "action",
+											"value": "done"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get todos",
+					"item": [
+						{
+							"name": "setup",
+							"item": [
+								{
+									"name": "Create a Todo",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set('todos.get.pending.todo_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"let todo = pm.response.json();",
+													"",
+													"pm.variables.set('todos.get.pending.todo_1.id', todo.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{todos.get.pending.todo_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create a Todo to be Done",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set('todos.get.done.todo_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"let todo = pm.response.json();",
+													"",
+													"pm.variables.set('todos.get.done.todo_1.id', todo.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{todos.get.done.todo_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Mark todo as done",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test('Todo is now marked as done', function () {",
+													"    pm.expect(pm.response.json())",
+													"        .to.be.an('object')",
+													"        .that.has.property('status', 'done');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/todos/:todo_id/:action",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos",
+												":todo_id",
+												":action"
+											],
+											"variable": [
+												{
+													"key": "todo_id",
+													"value": "{{todos.get.done.todo_1.id}}"
+												},
+												{
+													"key": "action",
+													"value": "done"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get Todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let todos = pm.response.json();",
+											"",
+											"pm.test(\"Todos are non empty\", function () {",
+											"    pm.expect(todos)",
+											"        .to.be.an('array')",
+											"        .which.is.not.empty;",
+											"});",
+											"",
+											"pm.test('No todos in `done` state should be present', function () {",
+											"    let done_todos = todos.filter(t => t.status === 'done');",
+											"",
+											"    pm.expect(done_todos)",
+											"        .to.be.an('array')",
+											"        .which.is.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let todos = pm.response.json();",
+											"",
+											"pm.test(\"Todos are non empty\", function () {",
+											"    pm.expect(todos)",
+											"        .to.be.an('array')",
+											"        .which.is.not.empty;",
+											"});",
+											"",
+											"pm.test('Todos in `done` state should be present', function () {",
+											"    let done_todos = todos.filter(t => t.status === 'done');",
+											"",
+											"    pm.expect(done_todos)",
+											"        .to.be.an('array')",
+											"        .which.is.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos?all=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									],
+									"query": [
+										{
+											"key": "all",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let todo = pm.response.json();",
+											"",
+											"pm.test(\"Todo id is as expected\", function () {",
+											"    pm.expect(todo)",
+											"        .to.be.an('object')",
+											"        .which.has.property('id', pm.variables.get('todos.get.pending.todo_1.id'));",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.get.pending.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get another users Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.get.pending.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get non existent todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "9999999"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update todos",
+					"item": [
+						{
+							"name": "setup",
+							"item": [
+								{
+									"name": "Create a Todo",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set('todos.update.todo_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let todo = pm.response.json();",
+													"",
+													"pm.variables.set('todos.update.todo_1.id', todo.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{todos.update.todo_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Update Todo Title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Todo has new title\", function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .which.has.property('title', pm.variables.get('todos.update.test_1.todo_1.title'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('todos.update.test_1.todo_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{todos.update.test_1.todo_1.title}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.update.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Todo with Invalid Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"",
+											"pm.test('Response status is BadRequest', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'BadRequest');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomCatchPhrase}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.update.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update another Users Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.update.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Non Existent Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomCatchPhrase}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "99999999"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete todos",
+					"item": [
+						{
+							"name": "setup",
+							"item": [
+								{
+									"name": "Create a Todo",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set('todos.delete.todo_1.title', pm.variables.replaceIn('{{$randomCatchPhrase}}'));",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"let todo = pm.response.json();",
+													"",
+													"pm.variables.set('todos.delete.todo_1.id', todo.id);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Api-Key",
+												"value": "{{todos.user_1.token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{todos.delete.todo_1.title}}\",\n    \"due_by\": \"{{$randomDateFuture}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete a non existent Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "9999999"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete another users Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test('Response status is NotFound', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'NotFound');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_2.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.delete.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Response status is Ok', function () {",
+											"    pm.expect(pm.response.json())",
+											"        .to.be.an('object')",
+											"        .that.has.property('status', 'Ok');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "{{todos.user_1.token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todo_id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todo_id"
+									],
+									"variable": [
+										{
+											"key": "todo_id",
+											"value": "{{todos.delete.todo_1.id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [

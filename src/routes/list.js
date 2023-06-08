@@ -74,7 +74,7 @@ list_router.put('/:list_id', async (req, res, next) => {
         let list = await ListService.update_list_name(name, req.params.list_id, req.user_id);
 
         if (list === null) {
-            throw NotFound;
+            throw new NotFound;
         }
 
         return res.json(list);
@@ -89,7 +89,7 @@ list_router.delete('/:list_id', async (req, res, next) => {
         let list = await ListService.get_list(req.params.list_id, req.user_id);
 
         if (list === null) {
-            throw NotFound;
+            throw new NotFound;
         }
 
         await remove_todos_from_list(req.user_id, { list_id: list.id });
